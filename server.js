@@ -484,8 +484,8 @@ const cleanup = () => {
     }
 };
 
-// Serve root route index.html
-app.get('/', (req, res) => {
+// Catch-all route to serve index.html for SPA frontend routing
+app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
