@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelIntell - Smart Season-Based Itinerary Finder & Marketing Hub</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- TOP NAVIGATION -->
+        <header class="app-header">
+            <div class="header-logo">
+                <i data-lucide="plane-takeoff" class="logo-icon"></i>
+                <span class="logo-text">TravelIntell</span>
+            </div>
+            
+            <!-- Main Application View Switcher -->
+            <div class="view-tabs">
+                <button class="view-tab-btn active" id="view-tab-discovery" data-view="discovery">
+                    <i data-lucide="compass"></i>
+                    <span>Discovery Hub</span>
+                </button>
+                <button class="view-tab-btn" id="view-tab-planner" data-view="planner">
+                    <i data-lucide="sparkles"></i>
+                    <span>AI Itinerary Planner</span>
+                </button>
+                <button class="view-tab-btn" id="view-tab-agent" data-view="agent">
+                    <i data-lucide="bot"></i>
+                    <span>FlyAgent Strategy Hub</span>
+                </button>
+            </div>
+            
+            <div class="header-actions">
+                <!-- Persona Switcher -->
+                <div class="persona-switcher">
+                    <button class="persona-btn active" id="btn-traveler" data-persona="traveler">
+                        <i data-lucide="map"></i>
+                        <span>Traveler</span>
+                    </button>
+                    <button class="persona-btn" id="btn-executive" data-persona="executive">
+                        <i data-lucide="briefcase"></i>
+                        <span>Marketing Exec</span>
+                    </button>
+                </div>
+                
+                <!-- Theme Toggle -->
+                <button class="theme-toggle" id="theme-toggle-btn" aria-label="Toggle Theme">
+                    <i data-lucide="sun" class="sun-icon"></i>
+                    <i data-lucide="moon" class="moon-icon"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- VIEW 1: DISCOVERY HUB (DEFAULT) -->
+        <div class="app-view active" id="view-discovery">
+            <!-- HERO SECTION -->
+            <section class="hero-section">
+                <div class="hero-content">
+                    <span class="hero-tag">Smart Travel Planner</span>
+                    <h1>Discover the Perfect Place to Visit</h1>
+                    <p>Select your season and let our intelligent engine scan 150+ analyzed itineraries to match you with the ultimate trip details and marketing assets.</p>
+                </div>
+                
+                <!-- Seasons Grid -->
+                <div class="seasons-selector" id="seasons-grid">
+                    <div class="season-card" data-season="Summer" style="--season-color: var(--summer-primary);">
+                        <div class="season-bg summer-bg"></div>
+                        <div class="season-card-content">
+                            <i data-lucide="sun"></i>
+                            <h3>Summer</h3>
+                            <p>Mar – Jun (India)<br>Jun – Aug (Global)</p>
+                        </div>
+                    </div>
+                    <div class="season-card" data-season="Monsoon" style="--season-color: var(--monsoon-primary);">
+                        <div class="season-bg monsoon-bg"></div>
+                        <div class="season-card-content">
+                            <i data-lucide="cloud-rain"></i>
+                            <h3>Monsoon</h3>
+                            <p>Jul – Sep (India)<br>Ayurveda & Greenery</p>
+                        </div>
+                    </div>
+                    <div class="season-card" data-season="Autumn" style="--season-color: var(--autumn-primary);">
+                        <div class="season-bg autumn-bg"></div>
+                        <div class="season-card-content">
+                            <i data-lucide="leaf"></i>
+                            <h3>Autumn</h3>
+                            <p>Oct – Nov<br>Festivals & Foliage</p>
+                        </div>
+                    </div>
+                    <div class="season-card" data-season="Winter" style="--season-color: var(--winter-primary);">
+                        <div class="season-bg winter-bg"></div>
+                        <div class="season-card-content">
+                            <i data-lucide="snowflake"></i>
+                            <h3>Winter</h3>
+                            <p>Dec – Feb<br>Snow & Desert Festivals</p>
+                        </div>
+                    </div>
+                    <div class="season-card" data-season="Spring" style="--season-color: var(--spring-primary);">
+                        <div class="season-bg spring-bg"></div>
+                        <div class="season-card-content">
+                            <i data-lucide="flower"></i>
+                            <h3>Spring</h3>
+                            <p>Mar – Apr<br>Blossoms & Mild Climates</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MAIN LAYOUT -->
+            <main class="main-layout">
+                <!-- SIDEBAR FILTERS -->
+                <aside class="sidebar-filters">
+                    <div class="filter-card">
+                        <h3 class="filter-section-title">
+                            <i data-lucide="sliders-horizontal"></i>
+                            Refine Search
+                        </h3>
+                        
+                        <!-- Search Input -->
+                        <div class="filter-group">
+                            <label for="search-input">Keywords</label>
+                            <div class="search-input-wrapper">
+                                <i data-lucide="search" class="search-icon"></i>
+                                <input type="text" id="search-input" placeholder="e.g. Kerala, Temple, Trek, Japan...">
+                            </div>
+                        </div>
+                        
+                        <!-- Segment Selection -->
+                        <div class="filter-group">
+                            <label>Category</label>
+                            <div class="segment-pills">
+                                <button class="pill active" data-segment="all">All</button>
+                                <button class="pill" data-segment="Domestic">Domestic</button>
+                                <button class="pill" data-segment="International">International</button>
+                            </div>
+                        </div>
+
+                        <!-- Region Selector -->
+                        <div class="filter-group">
+                            <label for="region-select">Region / Continent</label>
+                            <select id="region-select">
+                                <option value="all">All Regions</option>
+                            </select>
+                        </div>
+
+                        <!-- Duration Select -->
+                        <div class="filter-group">
+                            <label for="duration-select">Duration</label>
+                            <select id="duration-select">
+                                <option value="all">Any Duration</option>
+                                <option value="short">Short (1-4 Days)</option>
+                                <option value="medium">Medium (5-8 Days)</option>
+                                <option value="long">Long (9+ Days)</option>
+                            </select>
+                        </div>
+
+                        <!-- Reset Button -->
+                        <button class="btn btn-secondary w-full" id="btn-reset-filters">
+                            <i data-lucide="rotate-ccw"></i>
+                            Reset All Filters
+                        </button>
+                    </div>
+                </aside>
+
+                <!-- TOUR GRID AND RESULTS -->
+                <section class="results-container">
+                    <div class="results-header">
+                        <div class="results-count">
+                            Found <span id="tour-count">0</span> packages suitable for <span id="active-season-label" class="season-badge-inline">All Seasons</span>
+                        </div>
+                    </div>
+
+                    <!-- Loader -->
+                    <div class="loader-container" id="loader">
+                        <div class="spinner"></div>
+                        <p>Scanning travel database...</p>
+                    </div>
+
+                    <!-- Empty State -->
+                    <div class="empty-state hidden" id="empty-state">
+                        <i data-lucide="compass" class="empty-icon"></i>
+                        <h3>No Itineraries Found</h3>
+                        <p>Try resetting your filters or adjusting your keywords to find matching packages.</p>
+                    </div>
+
+                    <!-- Tour Cards Grid -->
+                    <div class="tours-grid" id="tours-grid">
+                        <!-- Dynamic cards inject here -->
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- VIEW 2: FLYAGENT STRATEGY HUB -->
+        <div class="app-view hidden" id="view-agent">
+            <main class="agent-layout">
+                <!-- SUGGESTED AI PROMPT TEMPLATES -->
+                <aside class="agent-prompts-sidebar">
+                    <div class="agent-card">
+                        <div class="agent-avatar-section">
+                            <div class="agent-avatar">
+                                <i data-lucide="bot"></i>
+                            </div>
+                            <div>
+                                <h3 class="agent-name">FlyAgent</h3>
+                                <span class="agent-title">Director of Marketing & Sales</span>
+                                <div class="agent-status">
+                                    <span class="status-dot"></span>
+                                    <span>Online (gpt-oss:120b)</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p class="agent-intro">HappyFlying's dedicated marketing agent. I have deep knowledge of our 150+ travel packages and local regulations.</p>
+                        
+                        <div class="prompt-templates-section">
+                            <h4>Quick Campaign Templates</h4>
+                            <div class="template-list">
+                                <button class="template-btn" data-prompt="Design a high-converting Facebook and Instagram ad campaign strategy for our Kerala Monsoon Ayurveda Tour. Highlight unique selling points and suggest target audiences.">
+                                    <i data-lucide="facebook"></i>
+                                    <span>Monsoon Campaign Strategy</span>
+                                </button>
+                                <button class="template-btn" data-prompt="Analyze client objections regarding costs for the Egypt Cruise Tour. Give me a step-by-step objection handling guide for our sales executives.">
+                                    <i data-lucide="help-circle"></i>
+                                    <span>Sales Objection Handling</span>
+                                </button>
+                                <button class="template-btn" data-prompt="Create a 7-day social media content schedule (captions, tags, photo direction) for promoting the Japan Alpine and Cherry Blossom itineraries.">
+                                    <i data-lucide="instagram"></i>
+                                    <span>7-Day Japan Content Plan</span>
+                                </button>
+                                <button class="template-btn" data-prompt="Review HappyFlying's business model (https://happyflyingtravels.com/). Suggest 3 ways to optimize booking conversions and increase repeat customer rates.">
+                                    <i data-lucide="trending-up"></i>
+                                    <span>HappyFlying Conversion Ideas</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- CHAT CONSOLE -->
+                <section class="chat-console-container">
+                    <div class="chat-card">
+                        <!-- Chat Header -->
+                        <div class="chat-header">
+                            <div class="chat-header-title">
+                                <i data-lucide="messages-square" class="chat-icon"></i>
+                                <span>FlyAgent Consultations</span>
+                            </div>
+                            <button class="btn btn-secondary btn-sm" id="btn-clear-chat">
+                                <i data-lucide="trash-2"></i> Clear History
+                            </button>
+                        </div>
+                        
+                        <!-- Mobile Quick Templates (Scrollable horizontal list, visible only on mobile/tablet) -->
+                        <div class="mobile-templates-bar">
+                            <button class="template-btn-pill" data-prompt="Design a high-converting Facebook and Instagram ad campaign strategy for our Kerala Monsoon Ayurveda Tour. Highlight unique selling points and suggest target audiences.">
+                                <i data-lucide="facebook"></i>
+                                <span>Monsoon Strategy</span>
+                            </button>
+                            <button class="template-btn-pill" data-prompt="Analyze client objections regarding costs for the Egypt Cruise Tour. Give me a step-by-step objection handling guide for our sales executives.">
+                                <i data-lucide="help-circle"></i>
+                                <span>Objections Guide</span>
+                            </button>
+                            <button class="template-btn-pill" data-prompt="Create a 7-day social media content schedule (captions, tags, photo direction) for promoting the Japan Alpine and Cherry Blossom itineraries.">
+                                <i data-lucide="instagram"></i>
+                                <span>7-Day Content Plan</span>
+                            </button>
+                            <button class="template-btn-pill" data-prompt="Review HappyFlying's business model (https://happyflyingtravels.com/). Suggest 3 ways to optimize booking conversions and increase repeat customer rates.">
+                                <i data-lucide="trending-up"></i>
+                                <span>HappyFlying Strategy</span>
+                            </button>
+                        </div>
+                        
+                        <!-- Chat Message Area -->
+                        <div class="chat-messages-area" id="chat-messages">
+                            <!-- Welcome Message -->
+                            <div class="message system-msg">
+                                <div class="msg-bubble">
+                                    <p>👋 Welcome to the <strong>FlyAgent Strategy Hub</strong>! I am your sales and marketing consultant for HappyFlying Travels. </p>
+                                    <p>Select any itinerary from the <strong>Discovery Hub</strong> to load its context directly, or pick one of the quick templates on the left. You can ask me to draft advertisements, plan campaigns, or generate sales scripts based on our travel database!</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Context indicator bar -->
+                        <div class="context-indicator hidden" id="context-indicator-bar">
+                            <div class="context-indicator-left">
+                                <i data-lucide="link"></i>
+                                <span>Linked Context: <strong id="context-tour-title">Darjeeling Package</strong></span>
+                            </div>
+                            <button class="btn-link" id="btn-unlink-context">Unlink</button>
+                        </div>
+
+                        <!-- Chat Input Box -->
+                        <div class="chat-input-wrapper">
+                            <textarea id="chat-input" placeholder="Ask FlyAgent for marketing copy, campaigns, or sales scripts..." rows="1"></textarea>
+                            <button class="btn btn-primary" id="btn-send-message" aria-label="Send Message">
+                                <i data-lucide="send"></i>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- VIEW 3: AI CUSTOM ITINERARY PLANNER -->
+        <div class="app-view hidden" id="view-planner">
+            <main class="planner-layout">
+                <!-- Planning Form -->
+                <div class="planner-card">
+                    <div class="planner-header">
+                        <h2><i data-lucide="sparkles"></i> AI Custom Itinerary Planner</h2>
+                        <p>Enter your journey details to let TravelIntell AI synthesize a custom itinerary. You can immediately share the result with HappyFlying on WhatsApp!</p>
+                    </div>
+                    
+                    <div class="planner-form-grid">
+                        <div class="planner-field">
+                            <label for="planner-start">Starting Point</label>
+                            <input type="text" id="planner-start" placeholder="e.g. Bangalore, Delhi, Kochi">
+                        </div>
+                        <div class="planner-field">
+                            <label for="planner-dest">Destination</label>
+                            <input type="text" id="planner-dest" placeholder="e.g. Maldives, Darjeeling, Japan">
+                        </div>
+                        <div class="planner-field">
+                            <label for="planner-days">Duration (Days)</label>
+                            <select id="planner-days">
+                                <option value="3">3 Days</option>
+                                <option value="4">4 Days</option>
+                                <option value="5" selected>5 Days</option>
+                                <option value="6">6 Days</option>
+                                <option value="7">7 Days</option>
+                                <option value="8">8 Days</option>
+                                <option value="9">9 Days</option>
+                                <option value="10">10 Days</option>
+                                <option value="12">12 Days</option>
+                                <option value="14">14 Days</option>
+                            </select>
+                        </div>
+                        <div class="planner-field full-width-field" style="grid-column: span 2;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <label style="margin: 0;">Select Travel Themes <span style="font-weight: 600; text-transform: none; color: var(--accent);">(Select 1 or multiple)</span></label>
+                                <span class="theme-counter-badge" id="theme-selected-count">1 Theme Selected</span>
+                            </div>
+                            <div class="theme-pills-grid" id="planner-themes-container">
+                                <button type="button" class="theme-pill-chip active" data-theme="Leisure & Relaxation">
+                                    <i data-lucide="check-circle-2"></i> <span>Leisure & Relaxation</span>
+                                </button>
+                                <button type="button" class="theme-pill-chip" data-theme="Adventure & Trekking">
+                                    <i data-lucide="circle"></i> <span>Adventure & Trekking</span>
+                                </button>
+                                <button type="button" class="theme-pill-chip" data-theme="Heritage & Culture">
+                                    <i data-lucide="circle"></i> <span>Heritage & Culture</span>
+                                </button>
+                                <button type="button" class="theme-pill-chip" data-theme="Romantic Honeymoon">
+                                    <i data-lucide="circle"></i> <span>Romantic Honeymoon</span>
+                                </button>
+                                <button type="button" class="theme-pill-chip" data-theme="Family Holiday">
+                                    <i data-lucide="circle"></i> <span>Family Holiday</span>
+                                </button>
+                                <button type="button" class="theme-pill-chip" data-theme="Wildlife & Nature Safari">
+                                    <i data-lucide="circle"></i> <span>Wildlife & Nature Safari</span>
+                                </button>
+                                <button type="button" class="theme-pill-chip" data-theme="Spiritual & Pilgrimage (Yatra)">
+                                    <i data-lucide="circle"></i> <span>Spiritual & Pilgrimage (Yatra)</span>
+                                </button>
+                                <button type="button" class="theme-pill-chip" data-theme="Luxury & Wellness Retreat">
+                                    <i data-lucide="circle"></i> <span>Luxury & Wellness Retreat</span>
+                                </button>
+                                <button type="button" class="theme-pill-chip" data-theme="Food & Culinary Exploration">
+                                    <i data-lucide="circle"></i> <span>Food & Culinary Exploration</span>
+                                </button>
+                                <button type="button" class="theme-pill-chip" data-theme="Beach & Island Water Sports">
+                                    <i data-lucide="circle"></i> <span>Beach & Island Water Sports</span>
+                                </button>
+                                <button type="button" class="theme-pill-chip" data-theme="Offbeat & Solo Backpacking">
+                                    <i data-lucide="circle"></i> <span>Offbeat & Solo Backpacking</span>
+                                </button>
+                                <button type="button" class="theme-pill-chip" data-theme="Photography & Scenic Landscapes">
+                                    <i data-lucide="circle"></i> <span>Photography & Scenic Landscapes</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-primary w-full" id="btn-generate-itinerary">
+                        <i data-lucide="sparkles"></i>
+                        <span>Generate Itinerary</span>
+                    </button>
+                </div>
+
+                <!-- Custom Itinerary Results -->
+                <div class="planner-results-card hidden" id="planner-results-section">
+                    <div class="planner-results-header">
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                                <span class="badge" id="results-theme-badge">Honeymoon</span>
+                                <span class="badge" style="background: rgba(37, 99, 235, 0.1); color: var(--accent); border: 1px dashed rgba(37, 99, 235, 0.3); display: inline-flex; align-items: center; gap: 0.25rem; font-size: 0.7rem; font-weight: 700;">
+                                    <i data-lucide="edit-2" style="width: 0.7rem; height: 0.7rem;"></i> EDITABLE & INTERACTIVE
+                                </span>
+                            </div>
+                            <h3 class="planner-results-title" id="planner-results-route">Bangalore to Maldives Itinerary</h3>
+                            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem;">💡 Click any place node in the flowchart to view attraction details & photos, or edit titles inline!</p>
+                        </div>
+                        
+                        <a href="#" target="_blank" class="btn btn-whatsapp" id="btn-whatsapp-share">
+                            <i data-lucide="message-square"></i>
+                            <span>Chat on WhatsApp</span>
+                        </a>
+                    </div>
+
+                    <!-- Flowchart & Timeline View Switcher -->
+                    <div class="flowchart-view-tabs">
+                        <button class="flowchart-tab-btn active" id="btn-show-flowchart">
+                            <i data-lucide="git-fork"></i>
+                            <span>Interactive Flowchart</span>
+                        </button>
+                        <button class="flowchart-tab-btn" id="btn-show-timeline">
+                            <i data-lucide="list"></i>
+                            <span>Timeline Accordion</span>
+                        </button>
+                    </div>
+
+                    <!-- VIEW A: INTERACTIVE ROADMAP FLOWCHART -->
+                    <div class="flowchart-wrapper" id="planner-flowchart-wrapper">
+                        <div class="flowchart-canvas" id="planner-flowchart-canvas">
+                            <svg class="flowchart-svg-connectors" id="flowchart-svg-connectors" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Dynamic SVG lines generated in app.js -->
+                            </svg>
+                            <div class="flowchart-nodes-tree" id="flowchart-nodes-tree">
+                                <!-- Generated node cards inject here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- VIEW B: ACCORDION TIMELINE -->
+                    <div class="timeline hidden" id="planner-timeline">
+                        <!-- Generated days inject here -->
+                    </div>
+                </div>
+            </main>
+        </div>
+            </main>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="app-footer">
+            <p>&copy; 2026 TravelIntell. All tour database rights reserved. Integrated with HappyFlying Tours & Travels.</p>
+        </footer>
+
+        <!-- SLIDE-OVER DETAIL SHEET -->
+        <div class="slide-sheet-backdrop" id="sheet-backdrop"></div>
+        <div class="slide-sheet" id="detail-sheet">
+            <!-- Sheet Header -->
+            <div class="sheet-header">
+                <div class="sheet-header-left">
+                    <span class="badge" id="sheet-segment">Domestic</span>
+                    <span class="badge" id="sheet-region">South India</span>
+                </div>
+                <button class="sheet-close-btn" id="sheet-close-btn">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+
+            <!-- Sheet Content Scroll Container -->
+            <div class="sheet-scroll-content">
+                <div class="sheet-hero" id="sheet-hero-banner">
+                    <!-- Image Banner -->
+                    <div class="sheet-hero-image-wrapper">
+                        <img id="sheet-hero-image" src="" alt="Destination Image">
+                        <div class="sheet-hero-overlay"></div>
+                    </div>
+                    <div class="sheet-hero-content-box">
+                        <h2 id="sheet-title">Darjeeling & Gangtok Escape</h2>
+                        <div class="sheet-meta-grid">
+                            <div class="meta-item">
+                                <i data-lucide="clock"></i>
+                                <div>
+                                    <label>Duration</label>
+                                    <span id="sheet-duration">3 Nights / 4 Days</span>
+                                </div>
+                            </div>
+                            <div class="meta-item">
+                                <i data-lucide="banknote"></i>
+                                <div>
+                                    <label>Price (Net / Pax)</label>
+                                    <span id="sheet-price">₹16,900</span>
+                                </div>
+                            </div>
+                            <div class="meta-item">
+                                <i data-lucide="calendar-days"></i>
+                                <div>
+                                    <label>Best Season</label>
+                                    <span id="sheet-seasons">Summer, Spring</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dual View Tab Buttons -->
+                <div class="sheet-tabs">
+                    <button class="tab-btn active" id="tab-itinerary" data-tab="itinerary">
+                        <i data-lucide="map-pin"></i>
+                        Itinerary Details
+                    </button>
+                    <button class="tab-btn" id="tab-marketing" data-tab="marketing">
+                        <i data-lucide="sparkles"></i>
+                        AI Marketing Toolkit
+                        <span class="exec-badge">Exec</span>
+                    </button>
+                </div>
+
+                <!-- Tab Panels -->
+                <div class="tab-panels">
+                    <!-- PANEL 1: ITINERARY -->
+                    <div class="tab-panel active" id="panel-itinerary">
+                        <!-- Government Warnings -->
+                        <div class="warnings-box hidden" id="sheet-warnings-container">
+                            <div class="warnings-header">
+                                <i data-lucide="alert-triangle"></i>
+                                <h4>Important Travel Regulations & Permit Notes</h4>
+                            </div>
+                            <ul class="warnings-list" id="sheet-warnings-list">
+                                <!-- Dynamic warnings -->
+                            </ul>
+                        </div>
+
+                        <!-- Action Buttons inside Drawer -->
+                        <div class="drawer-actions-row">
+                            <button class="btn btn-secondary w-full" id="btn-load-in-agent">
+                                <i data-lucide="bot"></i>
+                                Load in Strategy Agent
+                            </button>
+                        </div>
+
+                        <!-- Timeline Day-by-Day -->
+                        <h3 class="panel-section-title">Day-by-Day Itinerary</h3>
+                        <div class="timeline" id="sheet-timeline">
+                            <!-- Dynamic timeline items -->
+                        </div>
+
+                        <!-- Inclusions / Exclusions -->
+                        <div class="inout-grid">
+                            <div class="inout-card inclusions">
+                                <h4>
+                                    <i data-lucide="check-circle-2"></i>
+                                    Inclusions
+                                </h4>
+                                <ul id="sheet-inclusions">
+                                    <!-- Dynamic inclusions -->
+                                </ul>
+                            </div>
+                            <div class="inout-card exclusions">
+                                <h4>
+                                    <i data-lucide="x-circle"></i>
+                                    Exclusions
+                                </h4>
+                                <ul id="sheet-exclusions">
+                                    <!-- Dynamic exclusions -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PANEL 2: MARKETING (EXECUTIVE TOOLS) -->
+                    <div class="tab-panel" id="panel-marketing">
+                        <div class="marketing-intro-card">
+                            <i data-lucide="megaphone" class="intro-icon"></i>
+                            <div>
+                                <h4>Sales & Promotional Toolkit</h4>
+                                <p>Generate ready-to-publish social media captions, tags, and AI image/video generation prompts based on this itinerary.</p>
+                            </div>
+                        </div>
+
+                        <!-- Copywriter Section -->
+                        <div class="marketing-section">
+                            <div class="marketing-section-header">
+                                <h3>
+                                    <i data-lucide="feather"></i>
+                                    AI Social Media Caption
+                                </h3>
+                                <div class="tone-select-wrapper">
+                                    <label for="tone-select">Tone:</label>
+                                    <select id="tone-select">
+                                        <option value="adventure">🌲 Adventurous</option>
+                                        <option value="luxury">✨ Luxury & Romantic</option>
+                                        <option value="family">❤️ Family & Relaxing</option>
+                                        <option value="budget">💰 Budget Traveler</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="caption-container">
+                                <textarea id="marketing-caption" readonly></textarea>
+                                <button class="btn btn-secondary btn-icon-only copy-btn" data-target="marketing-caption" title="Copy Caption">
+                                    <i data-lucide="copy"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="tags-container">
+                                <label>Hashtags</label>
+                                <div class="tags-input-wrapper">
+                                    <input type="text" id="marketing-hashtags" readonly>
+                                    <button class="btn btn-secondary btn-icon-only copy-btn" data-target="marketing-hashtags" title="Copy Hashtags">
+                                        <i data-lucide="copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- AI Media Prompts Section -->
+                        <div class="marketing-section">
+                            <h3>
+                                <i data-lucide="image"></i>
+                                AI Media Generation Prompts
+                            </h3>
+                            
+                            <!-- Image Prompt -->
+                            <div class="prompt-box-wrapper">
+                                <div class="prompt-box-header">
+                                    <span>Midjourney / DALL-E Image Prompt</span>
+                                    <button class="btn btn-link copy-btn" data-target="prompt-image">
+                                        <i data-lucide="copy"></i> Copy
+                                    </button>
+                                </div>
+                                <textarea id="prompt-image" class="code-font" readonly></textarea>
+                            </div>
+
+                            <!-- Video Prompt -->
+                            <div class="prompt-box-wrapper">
+                                <div class="prompt-box-header">
+                                    <span>Runway / Sora Video Prompt</span>
+                                    <button class="btn btn-link copy-btn" data-target="prompt-video">
+                                        <i data-lucide="copy"></i> Copy
+                                    </button>
+                                </div>
+                                <textarea id="prompt-video" class="code-font" readonly></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Simulated AI Visual Generator Mockup -->
+                        <div class="marketing-section">
+                            <h3>
+                                <i data-lucide="sparkles"></i>
+                                Simulated Creative Output
+                            </h3>
+                            <div class="simulated-generator-card">
+                                <div class="simulated-image-frame" id="simulated-image-frame">
+                                    <div class="image-gradient-overlay" id="simulated-gradient"></div>
+                                    <div class="image-placeholder-info">
+                                        <i data-lucide="sparkles"></i>
+                                        <span id="simulated-text">Generate Creative Preview</span>
+                                    </div>
+                                    <div class="image-generated-visual hidden" id="generated-visual">
+                                        <!-- Will display SVG landscape or mock image -->
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary w-full" id="btn-generate-creative">
+                                    <i data-lucide="cpu"></i>
+                                    Run AI Creative Generator
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE-OVER PLACE DETAILS POP-UP (IMG2 REFERENCE DESIGN) -->
+    <div class="place-popup-backdrop" id="place-popup-backdrop"></div>
+    <div class="place-popup-drawer" id="place-popup-drawer">
+        <div class="place-popup-header">
+            <div class="place-popup-meta">
+                <span class="place-meta-badge" id="place-popup-day-tag">DAY 01 ATTRACTION</span>
+                <span class="place-meta-badge badge-dest" id="place-popup-category-tag">DESTINATION HIGHLIGHT</span>
+            </div>
+            <button class="place-popup-close-btn" id="place-popup-close-btn" aria-label="Close details">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+        <div class="place-popup-body">
+            <h2 class="place-popup-title" id="place-popup-title">Solang Valley</h2>
+            <div class="place-popup-location" id="place-popup-subtitle">
+                <i data-lucide="map-pin"></i> <span id="place-popup-location-text">Manali, Himachal Pradesh</span>
+            </div>
+
+            <div class="place-popup-section">
+                <h4 class="place-section-label">
+                    <i data-lucide="compass"></i> Overview & Sightseeing
+                </h4>
+                <p class="place-popup-desc" id="place-popup-desc">
+                    Experience breath-taking mountain vistas, adventure activities, and iconic sightseeing spots.
+                </p>
+            </div>
+
+            <div class="place-popup-section">
+                <h4 class="place-section-label">
+                    <i data-lucide="check-circle-2"></i> Recommended Activities
+                </h4>
+                <div class="place-activities-list" id="place-popup-activities">
+                    <!-- Dynamic activity pills inject here -->
+                </div>
+            </div>
+
+            <div class="place-popup-section">
+                <h4 class="place-section-label">
+                    <i data-lucide="image"></i> Photos & Visual Highlights
+                </h4>
+                <div class="place-gallery-grid" id="place-popup-gallery">
+                    <!-- Dynamic photo cards inject here -->
+                </div>
+            </div>
+        </div>
+        <div class="place-popup-footer">
+            <button class="btn btn-primary w-full" id="btn-place-close">
+                <span>Done</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main JavaScript App -->
+    <script src="app.js"></script>
+</body>
+</html>
