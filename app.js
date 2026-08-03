@@ -1062,7 +1062,10 @@ document.addEventListener("DOMContentLoaded", () => {
             chatHistory.push({ role: "assistant", content: accumulatedReply });
         } catch (error) {
             removeTypingIndicator();
-            appendMessage("system", `❌ <strong>Error</strong>: ${error.message || "Failed to reach FlyAgent. Please check server console logs."}`);
+            const friendlyErr = (error.message && error.message.includes("Failed to fetch"))
+                ? "TravelIntell server is connecting. If testing locally, please verify server is running."
+                : (error.message || "Failed to reach FlyAgent.");
+            appendMessage("system", `⚠️ ${escapeHTML(friendlyErr)}`);
         }
     }
 

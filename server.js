@@ -67,10 +67,29 @@ try {
     console.error('Failed to load tours_db.json:', error);
 }
 
-// Ollama Cloud configuration - loads from process.env for Vercel deployment security
-const OLLAMA_API_KEY = process.env.OLLAMA_API_KEY || "e9f10951a7c34ac2b037e4846877fee5.iRJ7UDzbxYzJ9cnAhs8OY1_O";
+// Load local .env file if available
+const envFilePath = path.join(__dirname, '.env');
+if (fs.existsSync(envFilePath)) {
+    try {
+        const envLines = fs.readFileSync(envFilePath, 'utf8').split('\n');
+        envLines.forEach(line => {
+            const [k, ...v] = line.split('=');
+            if (k && v.length > 0 && !process.env[k.trim()]) {
+                process.env[k.trim()] = v.join('=').trim();
+            }
+        });
+    } catch (e) {}
+}
+
+// Ollama Cloud configuration - loads from process.env with fallback key for local and production deployment
+const DEFAULT_OLLAMA_KEY = "e9f10951a7c34ac2b037e4846877fee5.iRJ7UDzbxYzJ9cnAhs8OY1_O";
+const OLLAMA_API_KEY = (process.env.OLLAMA_API_KEY && process.env.OLLAMA_API_KEY.trim().length > 5)
+    ? process.env.OLLAMA_API_KEY.trim()
+    : DEFAULT_OLLAMA_KEY;
 const OLLAMA_BASE_URL = process.env.OLLAMA_BASE_URL || "https://ollama.com";
 const OLLAMA_MODEL = process.env.OLLAMA_MODEL || "gpt-oss:120b";
+
+console.log(`[Config] Ollama Cloud API Key: ACTIVE (Key: ${OLLAMA_API_KEY.substring(0, 8)}...${OLLAMA_API_KEY.substring(OLLAMA_API_KEY.length - 4)})`);
 
 // ENTERPRISE LRU CACHE WITH TTL & MAX SIZE BOUND
 class BoundedLRUCache {
@@ -78,6 +97,10 @@ class BoundedLRUCache {
         this.maxItems = maxItems;
         this.ttlMs = ttlMs;
         this.cache = new Map();
+    }
+
+    has(key) {
+        return this.get(key) !== null;
     }
 
     get(key) {
@@ -197,6 +220,7 @@ ${injectedContext ? `Use the following tour data from HappyFlying's catalog to c
     try {
         console.log(`Sending streaming prompt to Ollama cloud completions API for model ${OLLAMA_MODEL}...`);
         
+        // 25-second timeout guard to prevent Vercel Serverless Function execution timeouts
         const response = await fetch(`${OLLAMA_BASE_URL}/v1/chat/completions`, {
             method: 'POST',
             headers: {
@@ -207,7 +231,8 @@ ${injectedContext ? `Use the following tour data from HappyFlying's catalog to c
                 model: OLLAMA_MODEL,
                 messages: apiMessages,
                 stream: true // Enable streaming!
-            })
+            }),
+            signal: AbortSignal.timeout(25000)
         });
 
         if (!response.ok) {
@@ -215,16 +240,23 @@ ${injectedContext ? `Use the following tour data from HappyFlying's catalog to c
             throw new Error(`Ollama API responded with status ${response.status}: ${errText}`);
         }
 
-        // Set headers for SSE streaming to the client
+        // Set headers for SSE streaming to Vercel client with zero buffering
         res.setHeader('Content-Type', 'text/event-stream');
-        res.setHeader('Cache-Control', 'no-cache');
+        res.setHeader('Cache-Control', 'no-cache, no-transform');
         res.setHeader('Connection', 'keep-alive');
+        res.setHeader('X-Accel-Buffering', 'no');
 
         const reader = response.body.getReader();
         const decoder = new TextDecoder();
         let fullContent = "";
+        let clientDisconnected = false;
 
-        while (true) {
+        req.on('close', () => {
+            clientDisconnected = true;
+            try { reader.cancel(); } catch (e) {}
+        });
+
+        while (!clientDisconnected) {
             const { done, value } = await reader.read();
             if (done) break;
             let chunkText = decoder.decode(value);
@@ -373,7 +405,8 @@ Requirements:
                     { role: 'user', content: userPrompt }
                 ],
                 response_format: { type: "json_object" }
-            })
+            }),
+            signal: AbortSignal.timeout(25000)
         });
 
         if (!response.ok) {
