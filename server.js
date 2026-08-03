@@ -484,8 +484,13 @@ const cleanup = () => {
     }
 };
 
-process.on('SIGTERM', cleanup);
-process.on('SIGINT', cleanup);
+// Fallback route to serve index.html for root and client routes on Vercel
+app.get('*', (req, res) => {
+    if (req.path.startsWith('/api/')) {
+        return res.status(404).json({ error: 'API endpoint not found' });
+    }
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
 
 if (process.env.VERCEL !== '1') {
     startServer();
