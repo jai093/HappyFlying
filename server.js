@@ -484,11 +484,8 @@ const cleanup = () => {
     }
 };
 
-// Fallback route to serve index.html for root and client routes on Vercel
-app.get('*', (req, res) => {
-    if (req.path.startsWith('/api/')) {
-        return res.status(404).json({ error: 'API endpoint not found' });
-    }
+// Serve root route index.html
+app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
