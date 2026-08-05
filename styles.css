@@ -2755,12 +2755,12 @@ select:focus {
 
 /* EMBEDDED WIDGET MODE (FOR EXTERNAL IFRAME EMBEDDING) */
 body.embedded-mode {
-    background: transparent;
+    background: var(--bg-app);
 }
 
 body.embedded-mode .app-header {
-    padding: 0.5rem 1rem;
-    box-shadow: none;
+    padding: 0.75rem 1.5rem;
+    box-shadow: var(--shadow-sm);
     border-bottom: 1px solid var(--border-color);
 }
 
@@ -2768,10 +2768,22 @@ body.embedded-mode .app-footer {
     display: none;
 }
 
-/* HIDE INTERNAL MARKETING EXEC PERSONA IN PUBLIC EMBEDDED MODE */
-body.embedded-mode #btn-executive,
-body.embedded-mode .persona-switcher {
+/* HIDE FLYAGENT TAB & MARKETING EXEC IN PUBLIC EMBEDDED MODE */
+body.embedded-mode #view-tab-agent,
+body.embedded-mode #btn-executive {
     display: none !important;
+}
+
+body.embedded-mode .persona-switcher {
+    display: flex !important;
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+
+body.embedded-mode #btn-traveler {
+    pointer-events: none;
+    cursor: default;
 }
 
 /* RESPONSIVE DESIGN FOR ALL DEVICES (320px to 1920px+) */

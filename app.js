@@ -130,12 +130,13 @@ document.addEventListener("DOMContentLoaded", () => {
             document.body.classList.add("embedded-mode");
             setPersona("traveler");
             if (btnExecutive) btnExecutive.style.display = "none";
-            const personaCapsule = document.querySelector(".persona-switcher");
-            if (personaCapsule) personaCapsule.style.display = "none";
+            if (viewTabAgent) viewTabAgent.style.display = "none";
         }
 
-        if (viewParam && ["discovery", "planner", "agent"].includes(viewParam)) {
+        if (viewParam && (isEmbed ? ["discovery", "planner"] : ["discovery", "planner", "agent"]).includes(viewParam)) {
             setView(viewParam);
+        } else if (isEmbed) {
+            setView("discovery");
         }
 
         try {
@@ -215,6 +216,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // APPLICATION VIEW NAVIGATION
     function setView(viewName) {
+        if (document.body.classList.contains("embedded-mode") && viewName === "agent") {
+            viewName = "discovery";
+        }
         activeView = viewName;
         
         viewTabDiscovery.classList.remove("active");
@@ -1317,7 +1321,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
 
                 waMessage += `\nCan you please check availability and provide pricing for this custom itinerary? Thank you!`;
-                btnWhatsappShare.href = `https://api.whatsapp.com/send?phone=919900113516&text=${encodeURIComponent(waMessage)}`;
+                btnWhatsappShare.href = `https://api.whatsapp.com/send?phone=919900113691&text=${encodeURIComponent(waMessage)}`;
             }
 
             itinerary.forEach((day, index) => {
