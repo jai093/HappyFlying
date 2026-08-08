@@ -1931,75 +1931,7 @@ select:focus {
     color: var(--accent);
 }
 
-/* RESPONSIVE STYLES */
-@media (max-width: 1024px) {
-    .main-layout {
-        grid-template-columns: 1fr;
-        padding: 0 1rem 3rem 1rem;
-    }
-    .sidebar-filters {
-        position: relative;
-        top: 0;
-    }
-    .seasons-selector {
-        grid-template-columns: repeat(3, 1fr);
-    }
-    .agent-layout {
-        grid-template-columns: 1fr;
-        height: auto;
-        overflow: visible;
-        padding: 0 1rem;
-    }
-    .agent-prompts-sidebar {
-        display: none; /* Hide sidebar on tablet/mobile */
-    }
-    .mobile-templates-bar {
-        display: flex; /* Show templates scroll bar on tablet/mobile */
-    }
-    .chat-card {
-        height: 600px;
-        margin-top: 0.5rem;
-    }
-}
 
-@media (max-width: 768px) {
-    .seasons-selector {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.75rem;
-    }
-    .tours-grid {
-        grid-template-columns: 1fr;
-        gap: 1.25rem;
-    }
-    .app-header {
-        flex-direction: column;
-        gap: 1rem;
-        padding: 1.25rem 1rem;
-        height: auto;
-    }
-    .header-actions {
-        width: 100%;
-        justify-content: space-between;
-    }
-    .view-tabs {
-        width: 100%;
-        justify-content: center;
-    }
-    .view-tab-btn {
-        flex: 1;
-        justify-content: center;
-    }
-    .sheet-meta-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-    .inout-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
-}
-
- /* Close the @media (max-width: 768px) query properly 
 /* AI ITINERARY PLANNER & ACCORDION FORMATTING STYLES */
 .itinerary-bullet-list {
     list-style: none;
@@ -2086,6 +2018,30 @@ select:focus {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+}
+.planner-field.full-width-field {
+    grid-column: span 2;
+}
+.planner-theme-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+.planner-theme-label {
+    margin: 0;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+}
+.planner-theme-sublabel {
+    font-weight: 600;
+    text-transform: none;
+    color: var(--accent);
 }
 .planner-field label {
     font-size: 0.75rem;
@@ -2786,62 +2742,353 @@ body.embedded-mode #btn-traveler {
     cursor: default;
 }
 
-/* RESPONSIVE DESIGN FOR ALL DEVICES (320px to 1920px+) */
-@media (max-width: 900px) {
+/* ==========================================================================
+   UNIFIED MULTI-DEVICE RESPONSIVE BREAKPOINTS (320px to 1920px+)
+   ========================================================================== */
+
+/* --- 1. LARGE DESKTOPS & WIDE SCREENS (>= 1280px) --- */
+@media (min-width: 1280px) {
+    .tours-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* --- 2. TABLET LANDSCAPE & SMALL LAPTOPS (1024px to 1279px) --- */
+@media (max-width: 1279px) {
+    .hero-section {
+        padding: 2.5rem 1.5rem 2rem 1.5rem;
+    }
+    .main-layout {
+        grid-template-columns: 260px 1fr;
+        gap: 1.5rem;
+        padding: 0 1.5rem 3rem 1.5rem;
+    }
+    .tours-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+    }
+}
+
+/* --- 3. TABLETS (PORTRAIT & SMALL LANDSCAPE: 768px to 1023px) --- */
+@media (max-width: 1023px) {
+    /* Header Reorganization into 2 Clean Rows */
     .app-header {
         flex-wrap: wrap;
-        padding: 0.75rem 1rem;
+        padding: 0.85rem 1.25rem;
+        gap: 0.85rem;
+    }
+    .header-logo {
+        order: 1;
+    }
+    .header-actions {
+        order: 2;
         gap: 0.75rem;
     }
-    
     .view-tabs {
         order: 3;
         width: 100%;
         justify-content: center;
     }
-
     .view-tab-btn {
         flex: 1;
-        padding: 0.45rem 0.5rem;
-        font-size: 0.8rem;
         justify-content: center;
+        padding: 0.5rem 0.75rem;
+        font-size: 0.825rem;
     }
-    
-    .persona-switcher {
-        padding: 0.2rem;
-    }
-    
     .persona-btn {
-        padding: 0.35rem 0.75rem;
-        font-size: 0.78rem;
+        padding: 0.4rem 0.85rem;
+        font-size: 0.8rem;
     }
 
-    .place-gallery-grid {
+    /* Seasons Grid */
+    .seasons-selector {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.85rem;
+    }
+
+    /* Main Layout Stack */
+    .main-layout {
         grid-template-columns: 1fr;
+        padding: 0 1.25rem 3rem 1.25rem;
+        gap: 1.5rem;
+    }
+    .sidebar-filters {
+        position: relative;
+        top: 0;
+        width: 100%;
+    }
+    .filter-card {
+        padding: 1.25rem;
+    }
+
+    /* FlyAgent Strategy Hub View */
+    .agent-layout {
+        grid-template-columns: 1fr;
+        height: calc(100vh - 130px);
+        overflow: hidden;
+        padding: 1rem 1.25rem;
+    }
+    .agent-prompts-sidebar {
+        display: none; /* Elevated to mobile templates bar */
+    }
+    .mobile-templates-bar {
+        display: flex;
+        overflow-x: auto;
+        padding: 0.75rem 1rem;
+    }
+    .chat-card {
+        height: 100%;
+        min-height: 0;
+        max-height: none;
+    }
+
+    /* Planner View */
+    .planner-layout {
+        margin: 1.5rem auto;
+        padding: 0 1.25rem;
+    }
+    .planner-card {
+        padding: 1.75rem;
+        margin-bottom: 1.5rem;
+    }
+    .planner-results-card {
+        padding: 1.75rem;
+    }
+
+    /* Drawers */
+    .slide-sheet {
+        width: 85vw;
+        max-width: 600px;
+    }
+    .place-popup-drawer {
+        width: 440px;
+        max-width: 90vw;
     }
 }
 
-@media (max-width: 480px) {
-    .header-logo span {
-        font-size: 1.1rem;
+/* --- 4. SMALL TABLETS & LARGE MOBILE PHONES (640px to 767px) --- */
+@media (max-width: 767px) {
+    .hero-content h1 {
+        font-size: 2.15rem;
     }
-    
-    .view-tab-btn span {
-        font-size: 0.75rem;
+    .hero-content p {
+        font-size: 1rem;
     }
-    
-    .persona-btn span {
-        font-size: 0.75rem;
+    .seasons-selector {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
     }
-
     .tours-grid {
         grid-template-columns: 1fr;
     }
-
-    .place-popup-drawer {
+    
+    /* Planner Form Fields (Single Column Stack - Fixes Image 2 cutoff) */
+    .planner-form-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1rem;
+    }
+    .planner-field.full-width-field {
+        grid-column: 1 / -1 !important;
+    }
+    .planner-field input, .planner-field select {
         width: 100%;
+        font-size: 0.9rem;
+        padding: 0.75rem 1rem;
+    }
+    .planner-theme-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.35rem;
+    }
+    
+    /* Planner Results Header & WhatsApp Button */
+    .planner-results-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    .btn-whatsapp {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Slide Sheet Drawer */
+    .slide-sheet {
+        width: 100vw;
+        max-width: 100vw;
+        border-left: none;
+    }
+    .sheet-meta-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    .inout-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    /* Flowchart Canvas Wrapper */
+    .flowchart-wrapper {
+        padding: 1rem 0.5rem;
+        overflow-x: auto;
+        width: 100%;
+    }
+    .flowchart-nodes-tree {
+        max-width: 100%;
+    }
+    .fc-node {
         max-width: 100%;
     }
 }
+
+/* --- 5. MOBILE PHONES (PORTRAIT: 480px to 639px) --- */
+@media (max-width: 639px) {
+    .app-header {
+        padding: 0.75rem 0.85rem;
+    }
+    .header-logo {
+        font-size: 1.15rem;
+    }
+    .logo-icon {
+        width: 1.4rem;
+        height: 1.4rem;
+    }
+    .view-tab-btn {
+        padding: 0.45rem 0.35rem;
+        font-size: 0.75rem;
+        gap: 0.35rem;
+    }
+    .view-tab-btn i {
+        width: 0.95rem;
+        height: 0.95rem;
+    }
+    .persona-btn {
+        padding: 0.35rem 0.65rem;
+        font-size: 0.75rem;
+    }
+    .persona-btn i {
+        width: 0.85rem;
+        height: 0.85rem;
+    }
+
+    /* Season Cards */
+    .season-card {
+        padding: 1rem;
+    }
+    .season-card-content i {
+        width: 1.5rem;
+        height: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+    .season-card-content h3 {
+        font-size: 1.05rem;
+    }
+
+    /* Tour Cards */
+    .tour-card-body {
+        padding: 1.15rem;
+    }
+    .tour-card-body h3 {
+        font-size: 1rem;
+        height: auto;
+        min-height: 2.6rem;
+    }
+    .tour-meta-row {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        font-size: 0.8rem;
+    }
+    .tour-card-footer {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+    .tour-card-footer .btn {
+        width: 100%;
+    }
+
+    /* Place Popup Drawer */
+    .place-popup-drawer {
+        width: 100vw;
+        max-width: 100vw;
+        border-left: none;
+    }
+    .place-gallery-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Chat Input Area */
+    .chat-input-wrapper {
+        padding: 0.75rem 1rem;
+        gap: 0.5rem;
+    }
+    #chat-input {
+        padding: 0.6rem 0.75rem;
+        font-size: 0.85rem;
+    }
+    #btn-send-message {
+        padding: 0.6rem 0.85rem;
+    }
+}
+
+/* --- 6. EXTRA SMALL MOBILE PHONES (320px to 479px) --- */
+@media (max-width: 479px) {
+    .header-logo span small {
+        display: none; /* Hide small subtitle on tiny 320px screens to prevent header height bloat */
+    }
+    .hero-content h1 {
+        font-size: 1.75rem;
+    }
+    .hero-content p {
+        font-size: 0.875rem;
+    }
+    .seasons-selector {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+    }
+    .season-card {
+        padding: 0.85rem 0.65rem;
+    }
+    .season-card-content h3 {
+        font-size: 0.95rem;
+    }
+    .season-card-content p {
+        font-size: 0.68rem;
+    }
+
+    .planner-card, .planner-results-card {
+        padding: 1.15rem 0.85rem;
+        border-radius: 0.85rem;
+    }
+    .planner-header h2 {
+        font-size: 1.35rem;
+    }
+    
+    .theme-pills-grid {
+        padding: 0.4rem;
+        gap: 0.35rem;
+    }
+    .theme-pill-chip {
+        padding: 0.3rem 0.55rem;
+        font-size: 0.72rem;
+    }
+
+    /* Chat Bubbles */
+    .message {
+        max-width: 92%;
+    }
+    .msg-bubble {
+        padding: 0.75rem 0.85rem;
+        font-size: 0.85rem;
+    }
+
+    .place-popup-title {
+        font-size: 1.3rem;
+    }
+    .place-popup-body {
+        padding: 1rem;
+        gap: 1rem;
+    }
+}
+
 
 
