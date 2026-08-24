@@ -30,7 +30,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // Persona buttons & Theme Switcher
     const btnTraveler = document.getElementById("btn-traveler");
     const btnExecutive = document.getElementById("btn-executive");
-    const themeToggleBtn = document.getElementById("theme-toggle-btn");
 
     // Application View Switcher
     const viewTabDiscovery = document.getElementById("view-tab-discovery");
@@ -172,12 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // THEME SWITCHER
-    themeToggleBtn.addEventListener("click", () => {
-        const currentTheme = document.documentElement.getAttribute("data-theme");
-        const newTheme = currentTheme === "dark" ? "light" : "dark";
-        document.documentElement.setAttribute("data-theme", newTheme);
-    });
+    // THEME SWITCHER REMOVED
 
     // PERSONA MANAGEMENT (TRAVELER VS MARKETING EXEC SWITCHER)
     function setPersona(persona) {
