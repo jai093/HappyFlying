@@ -45,6 +45,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const plannerDays = document.getElementById("planner-days");
     const plannerThemesContainer = document.getElementById("planner-themes-container");
     const themeSelectedCount = document.getElementById("theme-selected-count");
+    const plannerTravelers = document.getElementById("planner-travelers");
+    const plannerEmptyState = document.getElementById("planner-empty-state");
+    const btnGenerateText = document.getElementById("btn-generate-text");
     const btnGenerateItinerary = document.getElementById("btn-generate-itinerary");
     const plannerResultsSection = document.getElementById("planner-results-section");
     const plannerResultsRoute = document.getElementById("planner-results-route");
@@ -1224,16 +1227,26 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // =========================================
-    // AI CUSTOM ITINERARY PLANNER LOGIC
-    // =========================================
+    // Update generate button text when destination changes
+    if (plannerDest && btnGenerateText) {
+        plannerDest.addEventListener("input", () => {
+            const dest = plannerDest.value.trim();
+            if (dest) {
+                btnGenerateText.textContent = `Generate ${dest} Plan`;
+            } else {
+                btnGenerateText.textContent = `Generate Plan`;
+            }
+        });
+    }
 
     async function handleGenerateItinerary() {
         const start = plannerStart.value.trim();
         const dest = plannerDest.value.trim();
         const days = plannerDays.value;
+        const travelers = plannerTravelers.value;
+        
         const selectedThemesList = getSelectedThemes();
-        const theme = selectedThemesList.join(", ");
+        const theme = `${selectedThemesList.join(", ")} (${travelers})`;
 
         if (!start || !dest) {
             alert("Please enter both Starting Point and Destination!");
@@ -1242,8 +1255,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         btnGenerateItinerary.disabled = true;
         const originalHTML = btnGenerateItinerary.innerHTML;
-        btnGenerateItinerary.innerHTML = `<div class="spinner" style="width: 1rem; height: 1rem; margin: 0 0.5rem 0 0; border-width: 2px;"></div> Generating Custom Itinerary...`;
+        btnGenerateItinerary.innerHTML = `<div class="spinner" style="width: 1rem; height: 1rem; margin: 0 0.5rem 0 0; border-width: 2px;"></div> Generating...`;
         
+        if (plannerEmptyState) plannerEmptyState.classList.add("hidden");
+        const plannerLoaderState = document.getElementById("planner-loader-state");
+        if (plannerLoaderState) plannerLoaderState.classList.remove("hidden");
         plannerResultsSection.classList.add("hidden");
         plannerTimeline.innerHTML = "";
 
@@ -1263,6 +1279,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     const errJson = JSON.parse(text);
                     errMsg = errJson.error || errMsg;
                 } catch (e) {}
+                if (plannerLoaderState) plannerLoaderState.classList.add("hidden");
                 throw new Error(errMsg);
             }
 
@@ -1275,18 +1292,10 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             const capitalize = (str) => str.replace(/\b\w/g, c => c.toUpperCase());
-            plannerResultsRoute.textContent = `${capitalize(start)} → ${capitalize(dest)} (${days} Days, ${theme})`;
+            plannerResultsRoute.textContent = `${capitalize(start)} → ${capitalize(dest)} (${days} Days)`;
             resultsThemeBadge.textContent = selectedThemesList.join(" • ");
-
-            // Show reference sources if available
-            const existingRef = plannerResultsSection.querySelector('.planner-ref-sources');
-            if (existingRef) existingRef.remove();
-            if (referenceTours.length > 0) {
-                const refEl = document.createElement('p');
-                refEl.className = 'planner-ref-sources';
-                refEl.innerHTML = `<i data-lucide="database" style="width:0.85rem;height:0.85rem;vertical-align:middle;"></i> Based on HappyFlying DB: ${referenceTours.map(t => `<strong>${t.title}</strong>`).join(', ')}`;
-                plannerResultsSection.querySelector('.planner-results-header').after(refEl);
-            }
+            
+            if (plannerLoaderState) plannerLoaderState.classList.add("hidden");
 
             const currentCustomItinerary = [];
 
@@ -1836,7 +1845,7 @@ document.addEventListener("DOMContentLoaded", () => {
         startNode.innerHTML = `
             <div class="fc-node-header">
                 <span class="fc-badge">✈️ TRIP ORIGIN</span>
-                <span style="font-size: 0.72rem; color: #34d399; font-weight: 700;">START CHECKPOINT</span>
+                <span style="font-size: 0.72rem; color: #0f172a; font-weight: 700;">START CHECKPOINT</span>
             </div>
             <div class="fc-node-title">Departure from ${startCity}</div>
             <div class="fc-node-desc">Transfers, airport check-in, and official commencement of journey to ${destCity}.</div>
@@ -1874,7 +1883,7 @@ document.addEventListener("DOMContentLoaded", () => {
             node.innerHTML = `
                 <div class="fc-node-header">
                     <span class="fc-badge">${day.day} MILESTONE</span>
-                    <span style="font-size: 0.7rem; color: var(--accent); font-weight: 700; display: inline-flex; align-items: center; gap: 0.2rem;">
+                    <span style="font-size: 0.7rem; color: #0f172a; font-weight: 700; display: inline-flex; align-items: center; gap: 0.2rem;">
                         <i data-lucide="info" style="width:0.7rem;height:0.7rem"></i> Click place for details
                     </span>
                 </div>
@@ -1915,7 +1924,7 @@ document.addEventListener("DOMContentLoaded", () => {
         endNode.innerHTML = `
             <div class="fc-node-header">
                 <span class="fc-badge">🏁 DESTINATION RETURN</span>
-                <span style="font-size: 0.72rem; color: #f472b6; font-weight: 700;">END CHECKPOINT</span>
+                <span style="font-size: 0.72rem; color: #0f172a; font-weight: 700;">END CHECKPOINT</span>
             </div>
             <div class="fc-node-title">Return to ${startCity}</div>
             <div class="fc-node-desc">Final souvenir shopping, hotel check-out, and return journey home.</div>

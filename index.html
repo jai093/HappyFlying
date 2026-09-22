@@ -311,45 +311,52 @@
         <!-- VIEW 3: AI CUSTOM ITINERARY PLANNER -->
         <div class="app-view hidden" id="view-planner">
             <main class="planner-layout">
-                <!-- Planning Form -->
-                <div class="planner-card">
+                <!-- Planning Form (Left Panel) -->
+                <div class="planner-card planner-left-panel">
                     <div class="planner-header">
-                        <h2><i data-lucide="sparkles"></i> AI Custom Itinerary Planner</h2>
-                        <p>Enter your journey details to let TravelIntell AI synthesize a custom itinerary. You can immediately share the result with HappyFlying on WhatsApp!</p>
+                        <h2><i data-lucide="compass"></i> Trip Parameters</h2>
                     </div>
                     
                     <div class="planner-form-grid">
                         <div class="planner-field">
-                            <label for="planner-start">Starting Point</label>
+                            <label for="planner-start">STARTING POINT</label>
                             <input type="text" id="planner-start" placeholder="e.g. Bangalore, Delhi, Kochi">
                         </div>
                         <div class="planner-field">
-                            <label for="planner-dest">Destination</label>
+                            <label for="planner-dest">DESTINATION</label>
                             <input type="text" id="planner-dest" placeholder="e.g. Maldives, Darjeeling, Japan">
                         </div>
                         <div class="planner-field">
-                            <label for="planner-days">Duration (Days)</label>
+                            <label for="planner-days">DURATION</label>
                             <select id="planner-days">
-                                <option value="3">3 Days</option>
-                                <option value="4">4 Days</option>
-                                <option value="5" selected>5 Days</option>
-                                <option value="6">6 Days</option>
-                                <option value="7">7 Days</option>
-                                <option value="8">8 Days</option>
-                                <option value="9">9 Days</option>
-                                <option value="10">10 Days</option>
-                                <option value="12">12 Days</option>
-                                <option value="14">14 Days</option>
+                                <option value="3">3 Days / 2 Nights</option>
+                                <option value="4">4 Days / 3 Nights</option>
+                                <option value="5" selected>5 Days / 4 Nights (Recommended)</option>
+                                <option value="6">6 Days / 5 Nights</option>
+                                <option value="7">7 Days / 6 Nights</option>
+                                <option value="8">8 Days / 7 Nights</option>
                             </select>
                         </div>
-                        <div class="planner-field full-width-field">
+                        <div class="planner-field">
+                            <label for="planner-travelers">TRAVELERS</label>
+                            <select id="planner-travelers">
+                                <option value="1 Adult">1 Adult (Solo)</option>
+                                <option value="2 Adults" selected>2 Adults (Couple / Pair)</option>
+                                <option value="Family">Family (2 Adults + Kids)</option>
+                                <option value="Group">Group</option>
+                            </select>
+                        </div>
+                        <div class="planner-field" style="grid-column: 1 / -1;">
                             <div class="planner-theme-header">
-                                <label class="planner-theme-label">Select Travel Themes <span class="planner-theme-sublabel">(Select 1 or multiple)</span></label>
-                                <span class="theme-counter-badge" id="theme-selected-count">1 Theme Selected</span>
+                                <label class="planner-theme-label" style="color: #0f172a; font-weight: 800; font-size: 0.85rem; letter-spacing: 0.5px;">TRAVEL STYLE & THEME <span class="planner-theme-sublabel" style="color: #64748b; font-weight: 500;">(Select 1 or multiple)</span></label>
+                                <span class="theme-counter-badge" id="theme-selected-count" style="font-size:0.75rem; font-weight:bold; color:#0f172a;">1 Theme Selected</span>
                             </div>
-                            <div class="theme-pills-grid" id="planner-themes-container">
-                                <button type="button" class="theme-pill-chip active" data-theme="Leisure & Relaxation">
-                                    <i data-lucide="check-circle-2"></i> <span>Leisure & Relaxation</span>
+                            <div class="theme-pills-grid" id="planner-themes-container" style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:0.5rem;">
+                                <button type="button" class="theme-pill-chip active" data-theme="Honeymoon & Romantic Luxury">
+                                    <i data-lucide="check-circle-2"></i> <span>Honeymoon & Romantic Luxury</span>
+                                </button>
+                                <button type="button" class="theme-pill-chip" data-theme="Leisure & Relaxation">
+                                    <i data-lucide="circle"></i> <span>Leisure & Relaxation</span>
                                 </button>
                                 <button type="button" class="theme-pill-chip" data-theme="Adventure & Trekking">
                                     <i data-lucide="circle"></i> <span>Adventure & Trekking</span>
@@ -357,50 +364,55 @@
                                 <button type="button" class="theme-pill-chip" data-theme="Heritage & Culture">
                                     <i data-lucide="circle"></i> <span>Heritage & Culture</span>
                                 </button>
-                                <button type="button" class="theme-pill-chip" data-theme="Romantic Honeymoon">
-                                    <i data-lucide="circle"></i> <span>Romantic Honeymoon</span>
-                                </button>
                                 <button type="button" class="theme-pill-chip" data-theme="Family Holiday">
                                     <i data-lucide="circle"></i> <span>Family Holiday</span>
                                 </button>
                                 <button type="button" class="theme-pill-chip" data-theme="Wildlife & Nature Safari">
                                     <i data-lucide="circle"></i> <span>Wildlife & Nature Safari</span>
                                 </button>
-                                <button type="button" class="theme-pill-chip" data-theme="Spiritual & Pilgrimage (Yatra)">
-                                    <i data-lucide="circle"></i> <span>Spiritual & Pilgrimage (Yatra)</span>
-                                </button>
-                                <button type="button" class="theme-pill-chip" data-theme="Luxury & Wellness Retreat">
-                                    <i data-lucide="circle"></i> <span>Luxury & Wellness Retreat</span>
-                                </button>
-                                <button type="button" class="theme-pill-chip" data-theme="Food & Culinary Exploration">
-                                    <i data-lucide="circle"></i> <span>Food & Culinary Exploration</span>
-                                </button>
-                                <button type="button" class="theme-pill-chip" data-theme="Beach & Island Water Sports">
-                                    <i data-lucide="circle"></i> <span>Beach & Island Water Sports</span>
-                                </button>
-                                <button type="button" class="theme-pill-chip" data-theme="Offbeat & Solo Backpacking">
-                                    <i data-lucide="circle"></i> <span>Offbeat & Solo Backpacking</span>
-                                </button>
-                                <button type="button" class="theme-pill-chip" data-theme="Photography & Scenic Landscapes">
-                                    <i data-lucide="circle"></i> <span>Photography & Scenic Landscapes</span>
-                                </button>
                             </div>
                         </div>
                     </div>
                     
-                    <button class="btn btn-primary w-full" id="btn-generate-itinerary">
+                    <button class="planner-btn-generate w-full" id="btn-generate-itinerary">
                         <i data-lucide="sparkles"></i>
-                        <span>Generate Itinerary</span>
+                        <span id="btn-generate-text">GeneratePlan</span> 
                     </button>
                 </div>
 
-                <!-- Custom Itinerary Results -->
+                <!-- Right Panel (Empty State + Results) -->
+                <div class="planner-right-panel">
+                    <!-- Empty State -->
+                    <div class="planner-empty-state" id="planner-empty-state">
+                        <div class="empty-state-header">
+                            <h2 style="color: #0f172a;"><i data-lucide="calendar"></i> GENERATED CUSTOM ITINERARY</h2>
+                            <span class="badge badge-verified" style="background: #fef3c7; color: #0f172a; border-color: #fde68a;"><i data-lucide="check-circle-2"></i> Verified Plan</span>
+                        </div>
+                        <div class="empty-state-content">
+                            <div class="empty-state-icon-wrapper" style="background: #f8fafc; color: #0f172a;">
+                                <i data-lucide="compass"></i>
+                            </div>
+                            <h3 style="color: #0f172a;">No Plan Generated Yet</h3>
+                            <p>Select your destination and style on the left, then click "Generate Plan"<br>to view your personalized day-by-day travel roadmap.</p>
+                        </div>
+                    </div>
+
+                    <!-- Loader -->
+                    <div class="planner-empty-state hidden" id="planner-loader-state" style="justify-content: center;">
+                        <div class="empty-state-content" style="align-items: center; justify-content: center; display: flex; flex-direction: column; gap: 1rem;">
+                            <div class="spinner" style="width: 3rem; height: 3rem; border-color: #e2e8f0; border-top-color: #0f172a; border-width: 4px;"></div>
+                            <h3 style="color: #0f172a; margin-top: 1rem;">Crafting Your Perfect Itinerary...</h3>
+                            <p>Analyzing optimal routes and hand-picking activities.</p>
+                        </div>
+                    </div>
+
+                    <!-- Custom Itinerary Results -->
                 <div class="planner-results-card hidden" id="planner-results-section">
                     <div class="planner-results-header">
                         <div>
                             <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
                                 <span class="badge" id="results-theme-badge">Honeymoon</span>
-                                <span class="badge" style="background: rgba(37, 99, 235, 0.1); color: var(--accent); border: 1px dashed rgba(37, 99, 235, 0.3); display: inline-flex; align-items: center; gap: 0.25rem; font-size: 0.7rem; font-weight: 700;">
+                                <span class="badge" style="background: #fef3c7; color: #0f172a; border: 1px dashed #0f172a; display: inline-flex; align-items: center; gap: 0.25rem; font-size: 0.7rem; font-weight: 700;">
                                     <i data-lucide="edit-2" style="width: 0.7rem; height: 0.7rem;"></i> EDITABLE & INTERACTIVE
                                 </span>
                             </div>
