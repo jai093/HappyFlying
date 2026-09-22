@@ -135,7 +135,7 @@ button, input, select, textarea {
     font-weight: 700;
     font-size: 1.4rem;
     letter-spacing: -0.025em;
-    color: var(--accent);
+    color: #0f172a;
 }
 
 .logo-icon {
@@ -171,7 +171,7 @@ button, input, select, textarea {
 
 .view-tab-btn.active {
     background-color: var(--bg-card);
-    color: var(--accent);
+    color: #0f172a;
     box-shadow: var(--shadow-sm);
 }
 
@@ -217,8 +217,8 @@ button, input, select, textarea {
 }
 
 .persona-btn.active {
-    background-color: var(--accent);
-    color: #ffffff;
+    background-color: #0f172a;
+    color: #fef3c7;
     box-shadow: var(--shadow-sm);
 }
 
